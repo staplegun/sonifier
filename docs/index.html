@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Home - JSDoc</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-name.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>Sonifier</h1><p>Generate sounds that represents an image within a web browser.</p>
+<p>Sonifier provides a tonal soundtrack when viewing images. The sound changes
+based on what is currently visible, e.g. the current image in a slideshow,
+or panning around a single image.</p>
+<p>It plays and holds notes on a synthesizer, then adjusts the volume of those
+notes depending on the brightness of red, green, and blue channels in each
+pixel in the visible image. By regularly re-sampling the image as it is
+changed, the sound heard will adjust as the relative colour brightnesses
+change within the currently visible image (see 'How it works' below).</p>
+<h2>Demo</h2><p>Sonifier is used in the 'hum' option in <a href="https://staplegun.github.io/arotahi/">Arotahi</a></p>
+<h2>Usage</h2><p>The library is simple Javascript so include it directly.</p>
+<p>NB: Currently it does not work in Internet Explorer (as the code uses <code>class</code>
+and there is no transpiling pipeline set up).</p>
+<pre class="prettyprint source lang-HTML"><code>&lt;canvas id=&quot;canvas&quot; />
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/tone/13.1.4/Tone.js&quot;>&lt;/script>
+&lt;script src=&quot;https://rawgit.com/staplegun/sonifier/master/sonifier.min.js&quot;>&lt;/script>
+
+&lt;script type=&quot;text/javascript&quot;>
+let canvasElement = document.getElementById('mycanvas');
+let sonifier = new Sonifier()
+
+// usually each method below would be called by a triggering action
+sonifier.play()
+sonifier.analyseCanvas(canvasElement)
+sonifier.release()
+
+sonifier.play()
+sonifier.pollCanvasStart(canvasElement, 3)
+sonifier.pollCanvasStop()
+sonifier.release()
+&lt;/script></code></pre><h2>Config</h2><ul>
+<li>Notes can be specified as frequency numbers (like 440) or pitch-octave (like D#2) - see: <a href="https://tonejs.github.io/">Tone.js</a></li>
+<li>There are two image analysis strategies available: <code>absolute</code> and <code>tiers</code></li>
+</ul>
+<pre class="prettyprint source lang-javascript"><code>let sonifierConfig = {
+  &quot;synthRedNotes&quot; = [&quot;C2&quot;, &quot;E2&quot;],
+  &quot;synthGreenNotes&quot; = [&quot;G3&quot;, &quot;D4&quot;],
+  &quot;synthBlueNotes&quot; = [&quot;A3&quot;, &quot;C4&quot;],
+  &quot;dynamicRange&quot; = 30,
+  &quot;imagePixelSampling&quot; = 10,
+  &quot;imageAnalysisStrategy&quot; = &quot;absolute&quot;
+}
+let sonifier = new Sonifier(sonifierConfig)</code></pre><h2>How it works</h2><p>Each colour channel plays two music notes that represent it.
+The default tones combine into a 'C 6/9' chord,
+using notes from the Pentatonic scale giving a drone-like sound:</p>
+<ul>
+<li>Red: Major third</li>
+<li>Green: Fifth</li>
+<li>Blue: Minor third.</li>
+</ul>
+<p>Sonifier analyses the image pixels in a selected canvas element in the web page:</p>
+<ul>
+<li>Counts up the brightness levels of each channel (sampling one pixel in each 10x10 grid to improve real-time performance)</li>
+<li>Converts the channel average brightness value (0-255) to decibels (-30 to 0dB)</li>
+<li>Adjusts the volume of the notes playing for each channel to the new decibel level.</li>
+</ul>
+<p>Sometimes the sound doesn't change much when the image is changed because the
+averaging evens out the bright and dark areas. To help overcome this,
+three algorithms are available to exaggerate the sound generated from
+the visual brightness changes:</p>
+<ul>
+<li>Sinusoidal curve - low &amp; high values are compressed (less pronounced change) and mid-range values are expanded (more pronounced change)</li>
+<li>Absolute - brightness values are translated directly to equivalent volume values (default)</li>
+<li>Volume tiers - the brightest, middle, and dimmest channels are set to three preset volume levels, so one channel will always be loud and another quiet (regardless of their actual brightness values).</li>
+</ul>
+<h2>Documentation</h2><ul>
+<li><a href="https://staplegun.github.io/sonifier/">Sonifier API documentation</a></li>
+<li><a href="https://github.com/staplegun/sonifier/">Sonifier GitHub repository</a></li>
+</ul>
+<h2>Requires</h2><p><a href="https://tonejs.github.io/">Tone.js</a></p>
+<h2>Licence</h2><p>This project is licensed under the MIT Licence - see the
+<a href="LICENSE">LICENSE</a> file for details</p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Sonifier.html">Sonifier</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

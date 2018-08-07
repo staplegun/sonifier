@@ -1,0 +1,22 @@
+{
+  "source": {
+    "include": [
+      "./sonifier.js",
+      "./README.md"
+    ]
+  },
+  "opts": {
+    "destination": "./docs/"
+  },
+  "templates": {
+    "default": {
+      "layoutFile": "./jsdoc/layout.tmpl",
+      "staticFiles": {
+        "include": [
+          "./jsdoc/static"
+        ]
+      }
+    }
+  },
+  "plugins": ["plugins/markdown"]
+}
