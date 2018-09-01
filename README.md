@@ -6,7 +6,7 @@ Sonifier provides a tonal soundtrack when viewing images. The sound changes
 based on what is currently visible, e.g. the current image in a slideshow,
 or panning around a single image.
 
-It plays and holds notes on a synthesizer, then adjusts the volume of those
+It plays and holds notes on a synthesizer in the browser, then adjusts the volume of those
 notes depending on the brightness of red, green, and blue channels in each
 pixel in the visible image. By regularly re-sampling the image as it is
 changed, the sound heard will adjust as the relative colour brightnesses
@@ -26,7 +26,7 @@ and there is no transpiling pipeline set up).
 ```HTML
 <canvas id="canvas" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.1.4/Tone.js"></script>
-<script src="https://rawgit.com/staplegun/sonifier/master/sonifier.min.js"></script>
+<script src="https://cdn.rawgit.com/staplegun/sonifier/v1.0.0/sonifier.min.js"></script>
 
 <script type="text/javascript">
 let canvasElement = document.getElementById('mycanvas');
@@ -46,7 +46,7 @@ sonifier.release()
 
 ## Config
 
-* Notes can be specified as frequency numbers (like 440) or pitch-octave (like D#2) - see: [Tone.js](https://tonejs.github.io/)
+* Notes can be specified as frequency numbers (like `440`) or pitch-octave (like `D#2`) - see: [Tone.js](https://tonejs.github.io/)
 * There are two image analysis strategies available: `absolute` and `tiers`
 
 ```javascript
@@ -66,9 +66,9 @@ let sonifier = new Sonifier(sonifierConfig)
 Each colour channel plays two music notes that represent it.
 The default tones combine into a 'C 6/9' chord,
 using notes from the Pentatonic scale giving a drone-like sound:
-* Red: Major third
-* Green: Fifth
-* Blue: Minor third.
+* Red: Major third (C, E)
+* Green: Fifth (G, D)
+* Blue: Minor third (A, C).
 
 Sonifier analyses the image pixels in a selected canvas element in the web page:
 * Counts up the brightness levels of each channel (sampling one pixel in each 10x10 grid to improve real-time performance)
@@ -79,8 +79,8 @@ Sometimes the sound doesn't change much when the image is changed because the
 averaging evens out the bright and dark areas. To help overcome this,
 three algorithms are available to exaggerate the sound generated from
 the visual brightness changes:
-* Sinusoidal curve - low & high values are compressed (less pronounced change) and mid-range values are expanded (more pronounced change)
 * Absolute - brightness values are translated directly to equivalent volume values (default)
+* Sinusoidal curve - low & high values are compressed (less pronounced change) and mid-range values are expanded (more pronounced change)
 * Volume tiers - the brightest, middle, and dimmest channels are set to three preset volume levels, so one channel will always be loud and another quiet (regardless of their actual brightness values).
 
 ## Documentation
